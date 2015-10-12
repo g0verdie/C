@@ -1,0 +1,41 @@
+/*****
+		GRAMMAR RULES
+					*****/
+
+Program -> StatementList [EOF]
+StatementList -> Statement StatementList
+StatementList -> eps
+Statement -> Expression ;
+Statement -> ;
+Expression -> Arithmetic ArithmeticTail
+
+ArithmeticTail -> Addop Arithmetic ArithemticTail
+					OR
+ArithmeticTail -> Addop Expression
+
+ArithmeticTail -> eps
+Arithmetic -> Geometric GeometricTail
+
+GeometricTail -> Multop Geometric GeometricTail
+					OR
+GeometricTail -> Multop Arithmetic
+
+GeometricTail -> eps
+Geometric -> Negation NegationTail
+NegationTail -> ( Expression ) Power
+NegationTail -> literal Power
+Negation -> Negation
+Negation -> eps
+Power -> Powerop NegationTail
+Power -> ++
+Power -> --
+Power -> eps
+Addop -> +
+Addop -> -
+Multop -> *
+Multop -> /
+
+
+literal is any number (e.g. 4, 4.0, 444)
+eps is epsilon -- in your code it will match anything
+; + - * / ( )   are your terminals (they produce themselves -- no additional rules)

@@ -1,0 +1,16 @@
+
+OBJS = mat_test.o matrix.o 
+INCS = matrix.h matrix_types.h
+FLAGS =  -g
+
+runmattest:	$(OBJS)
+		gcc -o runmattest $(FLAGS) $(OBJS)
+shorttest.o:	mat_test.c  $(INCS)
+		gcc -c $(FLAGS) mat_test.c
+matrix.o:	matrix.c    $(INCS)
+		gcc -c $(FLAGS) matrix.c
+
+clean:		
+		rm *.o
+
+

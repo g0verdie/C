@@ -1,0 +1,33 @@
+
+OBJS = put_get_put.o file_to_struct.o tetra.o struct_to_file.o matrix.o FEV.o
+INCS = FEVtypes.h FEV.h
+FLAGS =  -g
+
+runtest:	$(OBJS)
+		gcc -o runtest $(FLAGS) $(OBJS)
+
+
+put_get_put.o:	put_get_put.c $(INCS)
+		gcc -c $(FLAGS) put_get_put.c
+
+
+file_to_struct.o:       file_to_struct.c $(INCS)
+		gcc -c $(FLAGS) file_to_struct.c
+
+tetra.o:	tetra.c $(INCS)
+		gcc -c $(FLAGS) tetra.c
+
+FEV.o:		FEV.c  $(INCS)
+		gcc -c $(FLAGS) FEV.c
+
+matrix.o:	../matrix/matrix.c   $(INCS)
+		gcc -c $(FLAGS) ../matrix/matrix.c
+
+# your matrix code may be elsewhere of course
+ 
+clean:		
+		rm *.o
+
+
+
+

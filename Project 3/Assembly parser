@@ -1,0 +1,1118 @@
+	.section	__TEXT,__text,regular,pure_instructions
+	.globl	_parse
+	.align	4, 0x90
+_parse:                                 ## @parse
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp2:
+	.cfi_def_cfa_offset 16
+Ltmp3:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp4:
+	.cfi_def_cfa_register %rbp
+	subq	$48, %rsp
+	leaq	_loc(%rip), %rdi
+	callq	_set_to_beginning
+	leaq	L_.str(%rip), %rdi
+	leaq	L_.str1(%rip), %rsi
+	callq	_fopen
+	leaq	_loc(%rip), %rdi
+	leaq	_tok(%rip), %rsi
+	movq	%rax, -8(%rbp)
+	callq	_scan
+	leaq	L_.str2(%rip), %rsi
+	movq	___stderrp@GOTPCREL(%rip), %rax
+	movq	(%rax), %rdi
+	movq	_loc(%rip), %rax
+	movl	8(%rax), %edx
+	movl	_loc+8(%rip), %ecx
+	movb	$0, %al
+	callq	_fprintf
+	leaq	L_.str3(%rip), %rdi
+	movl	_tok+24(%rip), %esi
+	movl	%eax, -20(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_printf
+	movl	%eax, -24(%rbp)         ## 4-byte Spill
+LBB0_1:                                 ## =>This Loop Header: Depth=1
+                                        ##     Child Loop BB0_3 Depth 2
+	cmpl	$0, _tok(%rip)
+	je	LBB0_6
+## BB#2:                                ##   in Loop: Header=BB0_1 Depth=1
+	jmp	LBB0_3
+LBB0_3:                                 ##   Parent Loop BB0_1 Depth=1
+                                        ## =>  This Inner Loop Header: Depth=2
+	cmpl	$4, _tok(%rip)
+	jne	LBB0_5
+## BB#4:                                ##   in Loop: Header=BB0_3 Depth=2
+	leaq	_loc(%rip), %rdi
+	leaq	_tok(%rip), %rsi
+	callq	_scan
+	jmp	LBB0_3
+LBB0_5:                                 ##   in Loop: Header=BB0_1 Depth=1
+	callq	_expression
+	leaq	L_.str4(%rip), %rdi
+	movsd	%xmm0, -16(%rbp)
+	movsd	-16(%rbp), %xmm0
+	movb	$1, %al
+	callq	_printf
+	leaq	L_.str5(%rip), %rsi
+	movq	-8(%rbp), %rdi
+	movsd	-16(%rbp), %xmm0
+	movl	%eax, -28(%rbp)         ## 4-byte Spill
+	movb	$1, %al
+	callq	_fprintf
+	leaq	_loc(%rip), %rdi
+	leaq	_tok(%rip), %rsi
+	movl	%eax, -32(%rbp)         ## 4-byte Spill
+	callq	_scan
+	jmp	LBB0_1
+LBB0_6:
+	leaq	L_.str6(%rip), %rdi
+	movb	$0, %al
+	callq	_printf
+	movl	%eax, -36(%rbp)         ## 4-byte Spill
+	addq	$48, %rsp
+	popq	%rbp
+	retq
+	.cfi_endproc
+
+	.globl	_expression
+	.align	4, 0x90
+_expression:                            ## @expression
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp7:
+	.cfi_def_cfa_offset 16
+Ltmp8:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp9:
+	.cfi_def_cfa_register %rbp
+	subq	$64, %rsp
+	leaq	L_.str7(%rip), %rdi
+	movb	$0, %al
+	callq	_printf
+	leaq	L_.str8(%rip), %rdi
+	xorps	%xmm0, %xmm0
+	movsd	%xmm0, -8(%rbp)
+	movsd	%xmm0, -16(%rbp)
+	movl	_tok(%rip), %esi
+	movl	%eax, -36(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_printf
+	movl	%eax, -40(%rbp)         ## 4-byte Spill
+	callq	_arithmetic
+	leaq	L_.str9(%rip), %rdi
+	movsd	%xmm0, -8(%rbp)
+	movsd	-8(%rbp), %xmm0
+	movb	$1, %al
+	callq	_printf
+	movl	%eax, -44(%rbp)         ## 4-byte Spill
+LBB1_1:                                 ## =>This Inner Loop Header: Depth=1
+	cmpl	$11, _tok(%rip)
+	jne	LBB1_3
+## BB#2:                                ##   in Loop: Header=BB1_1 Depth=1
+	movl	$11, %edi
+	callq	_match
+	jmp	LBB1_1
+LBB1_3:
+	cmpl	$2, _tok(%rip)
+	jne	LBB1_8
+## BB#4:
+	callq	_getAddOp
+	movb	%al, -17(%rbp)
+	movsd	-8(%rbp), %xmm0
+	movsd	%xmm0, -16(%rbp)
+	callq	_expression
+	movsd	%xmm0, -32(%rbp)
+	leaq	L_.str10(%rip), %rdi
+	xorl	%ecx, %ecx
+	movb	%cl, %al
+	callq	_printf
+	movsbl	-17(%rbp), %ecx
+	movl	%ecx, %edx
+	subl	$45, %edx
+	movl	%eax, -48(%rbp)         ## 4-byte Spill
+	movl	%ecx, -52(%rbp)         ## 4-byte Spill
+	movl	%edx, -56(%rbp)         ## 4-byte Spill
+	je	LBB1_6
+	jmp	LBB1_9
+LBB1_9:
+	movl	-52(%rbp), %eax         ## 4-byte Reload
+	subl	$43, %eax
+	movl	%eax, -60(%rbp)         ## 4-byte Spill
+	jne	LBB1_7
+	jmp	LBB1_5
+LBB1_5:
+	movsd	-16(%rbp), %xmm0
+	addsd	-32(%rbp), %xmm0
+	movsd	%xmm0, -8(%rbp)
+	jmp	LBB1_7
+LBB1_6:
+	movsd	-16(%rbp), %xmm0
+	subsd	-32(%rbp), %xmm0
+	movsd	%xmm0, -8(%rbp)
+LBB1_7:
+	jmp	LBB1_8
+LBB1_8:
+	leaq	L_.str11(%rip), %rdi
+	movsd	-8(%rbp), %xmm0
+	movb	$1, %al
+	callq	_printf
+	movsd	-8(%rbp), %xmm0
+	movl	%eax, -64(%rbp)         ## 4-byte Spill
+	addq	$64, %rsp
+	popq	%rbp
+	retq
+	.cfi_endproc
+
+	.globl	_arithmetic
+	.align	4, 0x90
+_arithmetic:                            ## @arithmetic
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp12:
+	.cfi_def_cfa_offset 16
+Ltmp13:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp14:
+	.cfi_def_cfa_register %rbp
+	subq	$80, %rsp
+	leaq	L_.str12(%rip), %rdi
+	movb	$0, %al
+	callq	_printf
+	leaq	L_.str8(%rip), %rdi
+	xorps	%xmm0, %xmm0
+	movsd	%xmm0, -16(%rbp)
+	movsd	%xmm0, -24(%rbp)
+	movl	_tok(%rip), %esi
+	movl	%eax, -36(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_printf
+	movl	%eax, -40(%rbp)         ## 4-byte Spill
+	callq	_geometric
+	leaq	L_.str13(%rip), %rdi
+	xorps	%xmm1, %xmm1
+	movsd	%xmm0, -16(%rbp)
+	movsd	%xmm1, -32(%rbp)
+	movsd	-16(%rbp), %xmm0
+	movb	$1, %al
+	callq	_printf
+	leaq	L_.str8(%rip), %rdi
+	movl	_tok(%rip), %esi
+	movl	%eax, -44(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_printf
+	movl	%eax, -48(%rbp)         ## 4-byte Spill
+LBB2_1:                                 ## =>This Inner Loop Header: Depth=1
+	cmpl	$11, _tok(%rip)
+	jne	LBB2_3
+## BB#2:                                ##   in Loop: Header=BB2_1 Depth=1
+	movl	$11, %edi
+	callq	_match
+	jmp	LBB2_1
+LBB2_3:
+	cmpl	$3, _tok(%rip)
+	jne	LBB2_9
+## BB#4:
+	callq	_getMultOp
+	movb	%al, -1(%rbp)
+	movsd	-16(%rbp), %xmm0
+	movsd	%xmm0, -24(%rbp)
+	callq	_arithmetic
+	movsd	%xmm0, -32(%rbp)
+	leaq	L_.str14(%rip), %rdi
+	xorl	%ecx, %ecx
+	movb	%cl, %al
+	callq	_printf
+	movsbl	-1(%rbp), %ecx
+	movl	%ecx, %edx
+	subl	$37, %edx
+	movl	%eax, -52(%rbp)         ## 4-byte Spill
+	movl	%ecx, -56(%rbp)         ## 4-byte Spill
+	movl	%edx, -60(%rbp)         ## 4-byte Spill
+	je	LBB2_7
+	jmp	LBB2_10
+LBB2_10:
+	movl	-56(%rbp), %eax         ## 4-byte Reload
+	subl	$47, %eax
+	movl	%eax, -64(%rbp)         ## 4-byte Spill
+	je	LBB2_6
+	jmp	LBB2_11
+LBB2_11:
+	movl	-56(%rbp), %eax         ## 4-byte Reload
+	subl	$42, %eax
+	movl	%eax, -68(%rbp)         ## 4-byte Spill
+	jne	LBB2_8
+	jmp	LBB2_5
+LBB2_5:
+	movsd	-24(%rbp), %xmm0
+	mulsd	-32(%rbp), %xmm0
+	movsd	%xmm0, -16(%rbp)
+	jmp	LBB2_8
+LBB2_6:
+	movsd	-24(%rbp), %xmm0
+	divsd	-32(%rbp), %xmm0
+	movsd	%xmm0, -16(%rbp)
+	jmp	LBB2_8
+LBB2_7:
+	movsd	-24(%rbp), %xmm0
+	movsd	-32(%rbp), %xmm1
+	callq	_fmod
+	movsd	%xmm0, -16(%rbp)
+LBB2_8:
+	jmp	LBB2_9
+LBB2_9:
+	movsd	-16(%rbp), %xmm0
+	addq	$80, %rsp
+	popq	%rbp
+	retq
+	.cfi_endproc
+
+	.globl	_geometric
+	.align	4, 0x90
+_geometric:                             ## @geometric
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp17:
+	.cfi_def_cfa_offset 16
+Ltmp18:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp19:
+	.cfi_def_cfa_register %rbp
+	subq	$64, %rsp
+	leaq	L_.str15(%rip), %rdi
+	xorps	%xmm0, %xmm0
+	movsd	%xmm0, -16(%rbp)
+	movb	$0, %al
+	callq	_printf
+	movl	%eax, -24(%rbp)         ## 4-byte Spill
+LBB3_1:                                 ## =>This Inner Loop Header: Depth=1
+	cmpl	$11, _tok(%rip)
+	jne	LBB3_3
+## BB#2:                                ##   in Loop: Header=BB3_1 Depth=1
+	movl	$11, %edi
+	callq	_match
+	jmp	LBB3_1
+LBB3_3:
+	movl	_tok(%rip), %esi
+	leaq	L_.str16(%rip), %rdi
+	xorl	%eax, %eax
+	movb	%al, %cl
+	movb	%cl, %al
+	callq	_printf
+	movl	_tok(%rip), %esi
+	movl	%esi, %edi
+	movq	%rdi, %rdx
+	subq	$5, %rdx
+	movl	%eax, -28(%rbp)         ## 4-byte Spill
+	movq	%rdi, -40(%rbp)         ## 8-byte Spill
+	movq	%rdx, -48(%rbp)         ## 8-byte Spill
+	ja	LBB3_15
+## BB#17:
+	leaq	LJTI3_0(%rip), %rax
+	movq	-40(%rbp), %rcx         ## 8-byte Reload
+	movslq	(%rax,%rcx,4), %rdx
+	addq	%rax, %rdx
+	jmpq	*%rdx
+LBB3_4:
+	callq	_NegTail
+	leaq	L_.str17(%rip), %rdi
+	movsd	%xmm0, -16(%rbp)
+	movb	$0, %al
+	callq	_printf
+	movl	%eax, -52(%rbp)         ## 4-byte Spill
+	jmp	LBB3_15
+LBB3_5:
+	callq	_getAddOp
+	movb	%al, -17(%rbp)
+	movsbl	-17(%rbp), %ecx
+	cmpl	$45, %ecx
+	jne	LBB3_7
+## BB#6:
+	callq	_NegTail
+	xorps	%xmm1, %xmm1
+	subsd	%xmm0, %xmm1
+	movsd	%xmm1, -8(%rbp)
+	jmp	LBB3_16
+LBB3_7:
+	movsbl	-17(%rbp), %eax
+	cmpl	$43, %eax
+	jne	LBB3_9
+## BB#8:
+	callq	_NegTail
+	movsd	%xmm0, -8(%rbp)
+	jmp	LBB3_16
+LBB3_9:
+	callq	_error_rep
+## BB#10:
+	jmp	LBB3_11
+LBB3_11:
+	jmp	LBB3_15
+LBB3_12:
+	callq	_NegTail
+	leaq	L_.str18(%rip), %rdi
+	movsd	%xmm0, -16(%rbp)
+	movsd	-16(%rbp), %xmm0
+	movb	$1, %al
+	callq	_printf
+	movl	%eax, -56(%rbp)         ## 4-byte Spill
+	jmp	LBB3_15
+LBB3_13:
+	xorps	%xmm0, %xmm0
+	movsd	%xmm0, -16(%rbp)
+	jmp	LBB3_15
+LBB3_14:
+	xorps	%xmm0, %xmm0
+	movsd	%xmm0, -16(%rbp)
+LBB3_15:
+	movsd	-16(%rbp), %xmm0
+	movsd	%xmm0, -8(%rbp)
+LBB3_16:
+	movsd	-8(%rbp), %xmm0
+	addq	$64, %rsp
+	popq	%rbp
+	retq
+	.cfi_endproc
+	.align	2, 0x90
+L3_0_set_14 = LBB3_14-LJTI3_0
+L3_0_set_12 = LBB3_12-LJTI3_0
+L3_0_set_5 = LBB3_5-LJTI3_0
+L3_0_set_15 = LBB3_15-LJTI3_0
+L3_0_set_13 = LBB3_13-LJTI3_0
+L3_0_set_4 = LBB3_4-LJTI3_0
+LJTI3_0:
+	.long	L3_0_set_14
+	.long	L3_0_set_12
+	.long	L3_0_set_5
+	.long	L3_0_set_15
+	.long	L3_0_set_13
+	.long	L3_0_set_4
+
+	.globl	_NegTail
+	.align	4, 0x90
+_NegTail:                               ## @NegTail
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp22:
+	.cfi_def_cfa_offset 16
+Ltmp23:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp24:
+	.cfi_def_cfa_register %rbp
+	subq	$176, %rsp
+	leaq	L_.str19(%rip), %rdi
+	movb	$0, %al
+	callq	_printf
+	xorps	%xmm0, %xmm0
+	movsd	%xmm0, -16(%rbp)
+	movsd	%xmm0, -24(%rbp)
+	movsd	%xmm0, -32(%rbp)
+	movl	%eax, -36(%rbp)         ## 4-byte Spill
+LBB4_1:                                 ## =>This Inner Loop Header: Depth=1
+	cmpl	$11, _tok(%rip)
+	jne	LBB4_3
+## BB#2:                                ##   in Loop: Header=BB4_1 Depth=1
+	movl	$11, %edi
+	callq	_match
+	jmp	LBB4_1
+LBB4_3:
+	movl	_tok(%rip), %esi
+	leaq	L_.str20(%rip), %rdi
+	xorl	%eax, %eax
+	movb	%al, %cl
+	movb	%cl, %al
+	callq	_printf
+	movl	_tok(%rip), %esi
+	movl	%esi, %edi
+	movq	%rdi, %rdx
+	subq	$5, %rdx
+	movl	%eax, -40(%rbp)         ## 4-byte Spill
+	movq	%rdi, -48(%rbp)         ## 8-byte Spill
+	movq	%rdx, -56(%rbp)         ## 8-byte Spill
+	ja	LBB4_19
+## BB#21:
+	leaq	LJTI4_0(%rip), %rax
+	movq	-48(%rbp), %rcx         ## 8-byte Reload
+	movslq	(%rax,%rcx,4), %rdx
+	addq	%rax, %rdx
+	jmpq	*%rdx
+LBB4_4:
+	xorps	%xmm0, %xmm0
+	movsd	%xmm0, -8(%rbp)
+	jmp	LBB4_20
+LBB4_5:
+	xorps	%xmm0, %xmm0
+	movsd	%xmm0, -8(%rbp)
+	jmp	LBB4_20
+LBB4_6:
+	leaq	L_.str21(%rip), %rdi
+	movb	$0, %al
+	callq	_printf
+	movl	$5, %edi
+	movl	%eax, -60(%rbp)         ## 4-byte Spill
+	callq	_match
+	leaq	L_.str2(%rip), %rsi
+	movq	___stderrp@GOTPCREL(%rip), %rcx
+	movq	(%rcx), %rdi
+	movq	_loc(%rip), %rcx
+	movl	8(%rcx), %edx
+	movl	_loc+8(%rip), %ecx
+	movb	$0, %al
+	callq	_fprintf
+	leaq	L_.str3(%rip), %rdi
+	movl	_tok+24(%rip), %esi
+	movl	%eax, -64(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_printf
+	movl	%eax, -68(%rbp)         ## 4-byte Spill
+	callq	_expression
+	leaq	L_.str22(%rip), %rdi
+	movsd	%xmm0, -16(%rbp)
+	movb	$0, %al
+	callq	_printf
+	leaq	L_.str20(%rip), %rdi
+	movl	_tok(%rip), %esi
+	movl	%eax, -72(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_printf
+	cmpl	$6, _tok(%rip)
+	movl	%eax, -76(%rbp)         ## 4-byte Spill
+	jne	LBB4_12
+## BB#7:
+	leaq	L_.str23(%rip), %rdi
+	xorl	%eax, %eax
+	movb	%al, %cl
+	movb	%cl, %al
+	movb	%cl, -77(%rbp)          ## 1-byte Spill
+	callq	_printf
+	movl	$6, %edi
+	movl	%eax, -84(%rbp)         ## 4-byte Spill
+	callq	_match
+	leaq	L_.str24(%rip), %rdi
+	movb	-77(%rbp), %al          ## 1-byte Reload
+	callq	_printf
+	movl	_tok(%rip), %edx
+	movl	%edx, %esi
+	subl	$10, %esi
+	movl	%eax, -88(%rbp)         ## 4-byte Spill
+	movl	%edx, -92(%rbp)         ## 4-byte Spill
+	movl	%esi, -96(%rbp)         ## 4-byte Spill
+	je	LBB4_10
+	jmp	LBB4_24
+LBB4_24:
+	movl	-92(%rbp), %eax         ## 4-byte Reload
+	subl	$9, %eax
+	movl	%eax, -100(%rbp)        ## 4-byte Spill
+	je	LBB4_9
+	jmp	LBB4_25
+LBB4_25:
+	movl	-92(%rbp), %eax         ## 4-byte Reload
+	subl	$8, %eax
+	movl	%eax, -104(%rbp)        ## 4-byte Spill
+	jne	LBB4_11
+	jmp	LBB4_8
+LBB4_8:
+	movl	$8, %edi
+	movabsq	$1, %rax
+	cvtsi2sdq	%rax, %xmm0
+	movsd	-16(%rbp), %xmm1
+	addsd	%xmm0, %xmm1
+	movsd	%xmm1, -16(%rbp)
+	callq	_match
+	jmp	LBB4_11
+LBB4_9:
+	movl	$9, %edi
+	movabsq	$-1, %rax
+	cvtsi2sdq	%rax, %xmm0
+	movsd	-16(%rbp), %xmm1
+	addsd	%xmm0, %xmm1
+	movsd	%xmm1, -16(%rbp)
+	callq	_match
+	jmp	LBB4_11
+LBB4_10:
+	leaq	L_.str25(%rip), %rdi
+	movb	$0, %al
+	callq	_printf
+	movl	$10, %edi
+	movsd	-16(%rbp), %xmm0
+	movsd	%xmm0, -24(%rbp)
+	movl	%eax, -108(%rbp)        ## 4-byte Spill
+	callq	_match
+	callq	_NegTail
+	leaq	L_.str26(%rip), %rdi
+	movsd	%xmm0, -32(%rbp)
+	movsd	-24(%rbp), %xmm0
+	movsd	-32(%rbp), %xmm1
+	movb	$2, %al
+	callq	_printf
+	leaq	L_.str27(%rip), %rdi
+	movsd	-24(%rbp), %xmm0
+	movsd	-32(%rbp), %xmm1
+	movl	%eax, -112(%rbp)        ## 4-byte Spill
+	movq	%rdi, -120(%rbp)        ## 8-byte Spill
+	callq	_pow
+	movsd	%xmm0, -16(%rbp)
+	movsd	-16(%rbp), %xmm0
+	movq	-120(%rbp), %rdi        ## 8-byte Reload
+	movb	$1, %al
+	callq	_printf
+	movl	%eax, -124(%rbp)        ## 4-byte Spill
+LBB4_11:
+	movsd	-16(%rbp), %xmm0
+	movsd	%xmm0, -8(%rbp)
+	jmp	LBB4_20
+LBB4_12:
+	callq	_error_rep
+## BB#13:
+	jmp	LBB4_19
+LBB4_14:
+	callq	_getNum
+	movsd	%xmm0, -16(%rbp)
+	leaq	L_.str28(%rip), %rdi
+	movb	$1, %al
+	callq	_printf
+	movl	_tok(%rip), %ecx
+	movl	%ecx, %edx
+	subl	$10, %edx
+	movl	%eax, -128(%rbp)        ## 4-byte Spill
+	movl	%ecx, -132(%rbp)        ## 4-byte Spill
+	movl	%edx, -136(%rbp)        ## 4-byte Spill
+	je	LBB4_17
+	jmp	LBB4_22
+LBB4_22:
+	movl	-132(%rbp), %eax        ## 4-byte Reload
+	subl	$9, %eax
+	movl	%eax, -140(%rbp)        ## 4-byte Spill
+	je	LBB4_16
+	jmp	LBB4_23
+LBB4_23:
+	movl	-132(%rbp), %eax        ## 4-byte Reload
+	subl	$8, %eax
+	movl	%eax, -144(%rbp)        ## 4-byte Spill
+	jne	LBB4_18
+	jmp	LBB4_15
+LBB4_15:
+	movl	$8, %edi
+	movabsq	$1, %rax
+	cvtsi2sdq	%rax, %xmm0
+	movsd	-16(%rbp), %xmm1
+	addsd	%xmm0, %xmm1
+	movsd	%xmm1, -16(%rbp)
+	callq	_match
+	jmp	LBB4_18
+LBB4_16:
+	movl	$9, %edi
+	movabsq	$-1, %rax
+	cvtsi2sdq	%rax, %xmm0
+	movsd	-16(%rbp), %xmm1
+	addsd	%xmm0, %xmm1
+	movsd	%xmm1, -16(%rbp)
+	callq	_match
+	jmp	LBB4_18
+LBB4_17:
+	leaq	L_.str25(%rip), %rdi
+	movb	$0, %al
+	callq	_printf
+	movl	$10, %edi
+	movsd	-16(%rbp), %xmm0
+	movsd	%xmm0, -24(%rbp)
+	movl	%eax, -148(%rbp)        ## 4-byte Spill
+	callq	_match
+	callq	_NegTail
+	leaq	L_.str26(%rip), %rdi
+	movsd	%xmm0, -32(%rbp)
+	movsd	-24(%rbp), %xmm0
+	movsd	-32(%rbp), %xmm1
+	movb	$2, %al
+	callq	_printf
+	leaq	L_.str27(%rip), %rdi
+	movsd	-24(%rbp), %xmm0
+	movsd	-32(%rbp), %xmm1
+	movl	%eax, -152(%rbp)        ## 4-byte Spill
+	movq	%rdi, -160(%rbp)        ## 8-byte Spill
+	callq	_pow
+	movsd	%xmm0, -16(%rbp)
+	movsd	-16(%rbp), %xmm0
+	movq	-160(%rbp), %rdi        ## 8-byte Reload
+	movb	$1, %al
+	callq	_printf
+	movl	%eax, -164(%rbp)        ## 4-byte Spill
+LBB4_18:
+	jmp	LBB4_19
+LBB4_19:
+	movsd	-16(%rbp), %xmm0
+	movsd	%xmm0, -8(%rbp)
+LBB4_20:
+	movsd	-8(%rbp), %xmm0
+	addq	$176, %rsp
+	popq	%rbp
+	retq
+	.cfi_endproc
+	.align	2, 0x90
+L4_0_set_4 = LBB4_4-LJTI4_0
+L4_0_set_14 = LBB4_14-LJTI4_0
+L4_0_set_19 = LBB4_19-LJTI4_0
+L4_0_set_5 = LBB4_5-LJTI4_0
+L4_0_set_6 = LBB4_6-LJTI4_0
+LJTI4_0:
+	.long	L4_0_set_4
+	.long	L4_0_set_14
+	.long	L4_0_set_19
+	.long	L4_0_set_19
+	.long	L4_0_set_5
+	.long	L4_0_set_6
+
+	.align	4, 0x90
+_error_rep:                             ## @error_rep
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp27:
+	.cfi_def_cfa_offset 16
+Ltmp28:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp29:
+	.cfi_def_cfa_register %rbp
+	subq	$16, %rsp
+	leaq	L_.str29(%rip), %rdi
+	movl	_tok(%rip), %esi
+	movb	$0, %al
+	callq	_printf
+	leaq	_loc(%rip), %rdi
+	movl	%eax, -4(%rbp)          ## 4-byte Spill
+	callq	_get_character
+	leaq	L_.str30(%rip), %rdi
+	movl	%eax, %esi
+	movb	$0, %al
+	callq	_printf
+	movl	$0, %edi
+	movl	%eax, -8(%rbp)          ## 4-byte Spill
+	callq	_exit
+	.cfi_endproc
+
+	.align	4, 0x90
+_match:                                 ## @match
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp32:
+	.cfi_def_cfa_offset 16
+Ltmp33:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp34:
+	.cfi_def_cfa_register %rbp
+	subq	$16, %rsp
+	movl	%edi, -4(%rbp)
+	movl	-4(%rbp), %edi
+	cmpl	_tok(%rip), %edi
+	je	LBB6_2
+## BB#1:
+	callq	_parse_error
+LBB6_2:
+	leaq	_loc(%rip), %rdi
+	leaq	_tok(%rip), %rsi
+	callq	_scan
+	addq	$16, %rsp
+	popq	%rbp
+	retq
+	.cfi_endproc
+
+	.align	4, 0x90
+_parse_error:                           ## @parse_error
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp37:
+	.cfi_def_cfa_offset 16
+Ltmp38:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp39:
+	.cfi_def_cfa_register %rbp
+	subq	$16, %rsp
+	leaq	L_.str31(%rip), %rsi
+	movq	___stderrp@GOTPCREL(%rip), %rax
+	movq	(%rax), %rdi
+	movb	$0, %al
+	callq	_fprintf
+	leaq	L_.str32(%rip), %rsi
+	movq	___stderrp@GOTPCREL(%rip), %rdi
+	movq	(%rdi), %rdi
+	movq	_tok+8(%rip), %rcx
+	movl	8(%rcx), %edx
+	movl	_tok+16(%rip), %ecx
+	movl	%eax, -4(%rbp)          ## 4-byte Spill
+	movb	$0, %al
+	callq	_fprintf
+	movl	$1, %edi
+	movl	%eax, -8(%rbp)          ## 4-byte Spill
+	callq	_exit
+	.cfi_endproc
+
+	.align	4, 0x90
+_getNum:                                ## @getNum
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp42:
+	.cfi_def_cfa_offset 16
+Ltmp43:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp44:
+	.cfi_def_cfa_register %rbp
+	subq	$64, %rsp
+	movslq	_tok+24(%rip), %rax
+	shlq	$0, %rax
+	movq	%rax, %rdi
+	callq	_malloc
+	movq	%rax, -8(%rbp)
+	movq	_tok+8(%rip), %rax
+	movq	%rax, -32(%rbp)
+	movq	_tok+16(%rip), %rax
+	movq	%rax, -24(%rbp)
+	movl	$0, -12(%rbp)
+LBB8_1:                                 ## =>This Inner Loop Header: Depth=1
+	movl	-12(%rbp), %eax
+	cmpl	_tok+24(%rip), %eax
+	jge	LBB8_4
+## BB#2:                                ##   in Loop: Header=BB8_1 Depth=1
+	leaq	-32(%rbp), %rdi
+	callq	_get_character
+	movb	%al, %cl
+	movslq	-12(%rbp), %rdi
+	movq	-8(%rbp), %rdx
+	movb	%cl, (%rdx,%rdi)
+## BB#3:                                ##   in Loop: Header=BB8_1 Depth=1
+	movl	-12(%rbp), %eax
+	addl	$1, %eax
+	movl	%eax, -12(%rbp)
+	jmp	LBB8_1
+LBB8_4:
+	leaq	L_.str33(%rip), %rdi
+	movl	_tok(%rip), %esi
+	movb	$0, %al
+	callq	_printf
+	leaq	L_.str34(%rip), %rsi
+	movq	___stderrp@GOTPCREL(%rip), %rdi
+	movq	(%rdi), %rdi
+	movq	_tok+8(%rip), %rcx
+	movl	8(%rcx), %edx
+	movl	_tok+16(%rip), %ecx
+	movl	%eax, -36(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_fprintf
+	leaq	L_.str2(%rip), %rsi
+	movq	___stderrp@GOTPCREL(%rip), %rdi
+	movq	(%rdi), %rdi
+	movq	-32(%rbp), %r8
+	movl	8(%r8), %edx
+	movl	-24(%rbp), %ecx
+	movl	%eax, -40(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_fprintf
+	leaq	L_.str3(%rip), %rdi
+	movl	_tok+24(%rip), %esi
+	movl	%eax, -44(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_printf
+	movq	-8(%rbp), %rdi
+	movl	%eax, -48(%rbp)         ## 4-byte Spill
+	callq	_atof
+	leaq	L_.str35(%rip), %rdi
+	movb	$1, %al
+	callq	_printf
+	movl	$1, %edi
+	movl	%eax, -52(%rbp)         ## 4-byte Spill
+	callq	_match
+	leaq	L_.str36(%rip), %rdi
+	movl	_tok(%rip), %esi
+	movb	$0, %al
+	callq	_printf
+	movl	%eax, -56(%rbp)         ## 4-byte Spill
+LBB8_5:                                 ## =>This Inner Loop Header: Depth=1
+	cmpl	$11, _tok(%rip)
+	jne	LBB8_7
+## BB#6:                                ##   in Loop: Header=BB8_5 Depth=1
+	movl	$11, %edi
+	callq	_match
+	jmp	LBB8_5
+LBB8_7:
+	movq	-8(%rbp), %rdi
+	callq	_atof
+	addq	$64, %rsp
+	popq	%rbp
+	retq
+	.cfi_endproc
+
+	.align	4, 0x90
+_getMultOp:                             ## @getMultOp
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp47:
+	.cfi_def_cfa_offset 16
+Ltmp48:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp49:
+	.cfi_def_cfa_register %rbp
+	subq	$48, %rsp
+	leaq	-24(%rbp), %rdi
+	movq	_tok+8(%rip), %rax
+	movq	%rax, -24(%rbp)
+	movq	_tok+16(%rip), %rax
+	movq	%rax, -16(%rbp)
+	callq	_get_character
+	leaq	L_.str37(%rip), %rdi
+	movb	%al, %cl
+	movb	%cl, -1(%rbp)
+	movl	_tok(%rip), %esi
+	movb	$0, %al
+	callq	_printf
+	leaq	L_.str38(%rip), %rdi
+	movsbl	-1(%rbp), %esi
+	movl	%eax, -28(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_printf
+	leaq	L_.str3(%rip), %rdi
+	movl	_tok+24(%rip), %esi
+	movl	%eax, -32(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_printf
+	movl	$3, %edi
+	movl	%eax, -36(%rbp)         ## 4-byte Spill
+	callq	_match
+	leaq	L_.str39(%rip), %rdi
+	movl	_tok(%rip), %esi
+	movb	$0, %al
+	callq	_printf
+	leaq	L_.str3(%rip), %rdi
+	movl	_tok+24(%rip), %esi
+	movl	%eax, -40(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_printf
+	movl	%eax, -44(%rbp)         ## 4-byte Spill
+LBB9_1:                                 ## =>This Inner Loop Header: Depth=1
+	cmpl	$11, _tok(%rip)
+	jne	LBB9_3
+## BB#2:                                ##   in Loop: Header=BB9_1 Depth=1
+	movl	$11, %edi
+	callq	_match
+	jmp	LBB9_1
+LBB9_3:
+	movsbl	-1(%rbp), %eax
+	addq	$48, %rsp
+	popq	%rbp
+	retq
+	.cfi_endproc
+
+	.align	4, 0x90
+_getAddOp:                              ## @getAddOp
+	.cfi_startproc
+## BB#0:
+	pushq	%rbp
+Ltmp52:
+	.cfi_def_cfa_offset 16
+Ltmp53:
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+Ltmp54:
+	.cfi_def_cfa_register %rbp
+	subq	$48, %rsp
+	leaq	-24(%rbp), %rdi
+	movq	_tok+8(%rip), %rax
+	movq	%rax, -24(%rbp)
+	movq	_tok+16(%rip), %rax
+	movq	%rax, -16(%rbp)
+	callq	_get_character
+	leaq	L_.str40(%rip), %rdi
+	movb	%al, %cl
+	movb	%cl, -1(%rbp)
+	movl	_tok(%rip), %esi
+	movb	$0, %al
+	callq	_printf
+	leaq	L_.str41(%rip), %rdi
+	movsbl	-1(%rbp), %esi
+	movl	%eax, -28(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_printf
+	leaq	L_.str3(%rip), %rdi
+	movl	_tok+24(%rip), %esi
+	movl	%eax, -32(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_printf
+	movl	$2, %edi
+	movl	%eax, -36(%rbp)         ## 4-byte Spill
+	callq	_match
+	leaq	L_.str42(%rip), %rdi
+	movl	_tok(%rip), %esi
+	movb	$0, %al
+	callq	_printf
+	leaq	L_.str3(%rip), %rdi
+	movl	_tok+24(%rip), %esi
+	movl	%eax, -40(%rbp)         ## 4-byte Spill
+	movb	$0, %al
+	callq	_printf
+	movl	%eax, -44(%rbp)         ## 4-byte Spill
+LBB10_1:                                ## =>This Inner Loop Header: Depth=1
+	cmpl	$11, _tok(%rip)
+	jne	LBB10_3
+## BB#2:                                ##   in Loop: Header=BB10_1 Depth=1
+	movl	$11, %edi
+	callq	_match
+	jmp	LBB10_1
+LBB10_3:
+	movsbl	-1(%rbp), %eax
+	addq	$48, %rsp
+	popq	%rbp
+	retq
+	.cfi_endproc
+
+.zerofill __DATA,__bss,_loc,16,3        ## @loc
+	.section	__TEXT,__cstring,cstring_literals
+L_.str:                                 ## @.str
+	.asciz	"output.txt"
+
+L_.str1:                                ## @.str1
+	.asciz	"w"
+
+.zerofill __DATA,__bss,_tok,32,3        ## @tok
+L_.str2:                                ## @.str2
+	.asciz	" Loc is at line %d, column %d\n"
+
+L_.str3:                                ## @.str3
+	.asciz	"Toc length: %d \n"
+
+L_.str4:                                ## @.str4
+	.asciz	"The result is...%lf\n"
+
+L_.str5:                                ## @.str5
+	.asciz	"= %lf\n"
+
+L_.str6:                                ## @.str6
+	.asciz	"End of File\n"
+
+L_.str7:                                ## @.str7
+	.asciz	"Expression\n"
+
+L_.str8:                                ## @.str8
+	.asciz	"The token expression has is: %d \n"
+
+L_.str9:                                ## @.str9
+	.asciz	"Back in EXP from ARITH. First number is %lf\n"
+
+L_.str10:                               ## @.str10
+	.asciz	"Back in EXP from ARITH TAIL\n"
+
+L_.str11:                               ## @.str11
+	.asciz	"About to return full result which is %lf!\n"
+
+L_.str12:                               ## @.str12
+	.asciz	"Arithmetic\n"
+
+L_.str13:                               ## @.str13
+	.asciz	"Back in ARITH from GEO. Result is %lf\n"
+
+L_.str14:                               ## @.str14
+	.asciz	"Back in ARITH from GEO TAIL\n"
+
+L_.str15:                               ## @.str15
+	.asciz	"Geometric\n"
+
+L_.str16:                               ## @.str16
+	.asciz	"The token geometric is holding: %d \n"
+
+L_.str17:                               ## @.str17
+	.asciz	"Back in GEO from NEG TAIL\n"
+
+L_.str18:                               ## @.str18
+	.asciz	"Back in GEO from NEG TAIL...the result is %lf\n"
+
+L_.str19:                               ## @.str19
+	.asciz	"Negation tail\n"
+
+L_.str20:                               ## @.str20
+	.asciz	"The token NegTail is holding: %d \n"
+
+L_.str21:                               ## @.str21
+	.asciz	"Left Parenthesis\n"
+
+L_.str22:                               ## @.str22
+	.asciz	"Back to NEG TAIL from EXP\n"
+
+L_.str23:                               ## @.str23
+	.asciz	"Looking for right Parenthesis"
+
+L_.str24:                               ## @.str24
+	.asciz	"Right Parenthesis"
+
+L_.str25:                               ## @.str25
+	.asciz	"I see a power!\n"
+
+L_.str26:                               ## @.str26
+	.asciz	"About to raise %lf in power of %lf\n"
+
+L_.str27:                               ## @.str27
+	.asciz	"Power result is %lf\n"
+
+L_.str28:                               ## @.str28
+	.asciz	"result in NegTail is %lf\n"
+
+L_.str29:                               ## @.str29
+	.asciz	"Here's the token code %d\n"
+
+L_.str30:                               ## @.str30
+	.asciz	"syntax error\nI am seeing %c\n"
+
+L_.str31:                               ## @.str31
+	.asciz	"Syntax error"
+
+L_.str32:                               ## @.str32
+	.asciz	" at line %d, column %d\n"
+
+L_.str33:                               ## @.str33
+	.asciz	"Get Num received: %d \n"
+
+L_.str34:                               ## @.str34
+	.asciz	" Toc is at line %d, column %d\n"
+
+L_.str35:                               ## @.str35
+	.asciz	"Get Num received: %f\n"
+
+L_.str36:                               ## @.str36
+	.asciz	"Get Num now gives out: %d \n"
+
+L_.str37:                               ## @.str37
+	.asciz	"Get Mult Op received: %d \n"
+
+L_.str38:                               ## @.str38
+	.asciz	"Get Mult Op received: %c\n"
+
+L_.str39:                               ## @.str39
+	.asciz	"Get Mult Op now gives out: %d \n"
+
+L_.str40:                               ## @.str40
+	.asciz	"Get Add Op received: %d \n"
+
+L_.str41:                               ## @.str41
+	.asciz	"Get Add Op received: %c\n"
+
+L_.str42:                               ## @.str42
+	.asciz	"Get Add Op now gives out: %d \n"
+
+
+.subsections_via_symbols
